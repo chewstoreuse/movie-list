@@ -4,11 +4,11 @@ import Searchbar from './Searchbar.jsx';
 import AddMovie from './AddMovie.jsx';
 import Watched from './Watched.jsx';
 var movies = [
-  { title: 'Mean Girls', watched: true, show: true },
-  { title: 'Hackers', watched: true, show: true },
-  { title: 'The Grey', watched: true, show: true },
-  { title: 'Sunshine', watched: true, show: true },
-  { title: 'Ex Machina', watched: true, show: true },
+  { title: 'Mean Girls', watched: true },
+  { title: 'Hackers', watched: true },
+  { title: 'The Grey', watched: true },
+  { title: 'Sunshine', watched: true },
+  { title: 'Ex Machina', watched: true },
 ];
 
 class App extends React.Component {
@@ -30,6 +30,8 @@ class App extends React.Component {
 
     this.onWatchedClick = this.onWatchedClick.bind(this);
     this.onToWatchClick = this.onToWatchClick.bind(this);
+
+    this.onMovieBtnClick = this.onMovieBtnClick.bind(this);
   }
 
   //add movie functions
@@ -108,6 +110,19 @@ class App extends React.Component {
     }, () => { console.log(this.state) });
   }
 
+  onMovieBtnClick(event) {
+    this.state.movieListView.forEach(movie => {
+      if (movie.title === event.target.getAttribute('movie')) {
+        movie.watched = !movie.watched;
+      }
+    });
+
+    var editedMovieList = this.state.movieListView;
+    this.setState({
+      movieListView: editedMovieList
+    });
+  }
+
   render() {
     return (
       <div className='list-container'>
@@ -115,7 +130,7 @@ class App extends React.Component {
         <AddMovie onInput={this.onAddMovieChange} onAdd={this.onClickAddMovie} />
         <Searchbar onInput={this.onInputChange} onSearch={this.onSearchSubmit} />
         <Watched onWatch={this.onWatchedClick} onToWatch={this.onToWatchClick} />
-        <MovieList movies={this.state.movieList} />
+        <MovieList movies={this.state.movieList} onMovieClick={this.onMovieBtnClick} />
       </div>
     );
   }
